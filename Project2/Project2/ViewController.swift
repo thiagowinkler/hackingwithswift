@@ -2,7 +2,7 @@
 //  ViewController.swift
 //  Project2
 //
-//  Created by Thiago W. Alves on 7/6/19.
+//  Created by Thiago Alves on 7/6/19.
 //  Copyright © 2019 Thiago Alves. All rights reserved.
 //
 
