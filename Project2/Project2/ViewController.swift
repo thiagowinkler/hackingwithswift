@@ -23,6 +23,8 @@ class ViewController: UIViewController {
         
         countries += ["Estonia", "France", "Germany", "Ireland", "Italy", "Monaco", "Nigeria", "Poland", "Russia", "Spain", "UK", "US"]
         
+        navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .action, target: self, action: #selector(scoreTapped))
+        
         button1.layer.borderWidth = 1
         button2.layer.borderWidth = 1
         button3.layer.borderWidth = 1
@@ -32,10 +34,6 @@ class ViewController: UIViewController {
         button3.layer.borderColor = UIColor.lightGray.cgColor
         
         askQuestion()
-    }
-    
-    func setTitle() {
-        title = "Flag \(totalQuestions) of 10: \(countries[correctAnswer]) (Score: \(score))"
     }
 
     func askQuestion(action: UIAlertAction! = nil) {
@@ -47,7 +45,7 @@ class ViewController: UIViewController {
         button3.setImage(UIImage(named: countries[2].lowercased()), for: .normal)
         
         totalQuestions += 1
-        setTitle()
+        title = "Flag \(totalQuestions) of 10: \(countries[correctAnswer])"
     }
     
     @IBAction func buttonTapped(_ sender: UIButton) {
@@ -60,8 +58,6 @@ class ViewController: UIViewController {
             title = "Wrong! That’s the flag of \(countries[sender.tag])!"
             score -= 1
         }
-        
-        setTitle()
         
         let ac = UIAlertController(title: title, message: "Your current score is \(score).", preferredStyle: .alert)
         
@@ -81,5 +77,15 @@ class ViewController: UIViewController {
         present(ac, animated: true)
     }
     
+    @objc func scoreTapped() {
+        let ac = UIAlertController(title: "Did you forget?", message: "Your current score is \(score).", preferredStyle: .alert)
+        
+        ac.addAction(UIAlertAction(title: "Continue", style: .default) {
+            action in
+            return
+        })
+        
+        present(ac, animated: true)
+    }
 }
 
