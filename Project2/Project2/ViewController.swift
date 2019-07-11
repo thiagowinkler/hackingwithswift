@@ -80,10 +80,7 @@ class ViewController: UIViewController {
     @objc func scoreTapped() {
         let ac = UIAlertController(title: "Did you forget?", message: "Your current score is \(score).", preferredStyle: .alert)
         
-        ac.addAction(UIAlertAction(title: "Continue", style: .default) {
-            action in
-            return
-        })
+        ac.addAction(UIAlertAction(title: "Continue", style: .default))
         
         present(ac, animated: true)
     }
