@@ -65,7 +65,7 @@ class ViewController: UIViewController {
 
         let ac = UIAlertController(title: title, message: "Your current score is \(score).", preferredStyle: .alert)
 
-        ac.addAction(UIAlertAction(title: "Continue", style: .default) { _ in
+        ac.addAction(UIAlertAction(title: "Continue", style: .default) { [unowned self] _ in
             if self.totalQuestions < 10 {
                 self.askQuestion()
             } else {

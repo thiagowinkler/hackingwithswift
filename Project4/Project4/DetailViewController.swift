@@ -46,11 +46,11 @@ class DetailViewController: UIViewController, WKNavigationDelegate {
         toolbarItems = [back, forward, spacer, progressButton, spacer, refresh]
         navigationController?.isToolbarHidden = false
 
-        observer = webView.observe(\.estimatedProgress, options: [.new]) { (object, _) in
-            self.progressView.progress = Float(object.estimatedProgress)
+        observer = webView.observe(\.estimatedProgress, options: [.new]) { [weak self] object, _ in
+            self?.progressView.progress = Float(object.estimatedProgress)
         }
 
-        if websites.count > 0 {
+        if !websites.isEmpty {
             let url = URL(string: "https://" + websites[selectedWebsite])!
             webView.load(URLRequest(url: url))
         } else {

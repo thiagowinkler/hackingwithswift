@@ -21,12 +21,13 @@ class ViewController: UITableViewController {
 
         let fm = FileManager.default
         let path = Bundle.main.resourcePath!
-        let items = try? fm.contentsOfDirectory(atPath: path)
 
-        for item in items ?? [String]() {
-            if item.hasSuffix(".png") {
-                // this is a picture to load!
-                countries.append(String(item.dropLast(4)))
+        if let items = try? fm.contentsOfDirectory(atPath: path) {
+            for item in items {
+                if item.hasSuffix(".png") {
+                    // this is a picture to load!
+                    countries.append(String(item.dropLast(4)))
+                }
             }
         }
 
