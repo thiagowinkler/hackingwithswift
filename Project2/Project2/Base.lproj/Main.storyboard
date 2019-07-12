@@ -20,6 +20,9 @@
                         <subviews>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="yXV-Y6-Nyr">
                                 <rect key="frame" x="87.666666666666686" y="100" width="200" height="100"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" secondItem="yXV-Y6-Nyr" secondAttribute="height" multiplier="2:1" id="hgg-zq-MbX"/>
+                                </constraints>
                                 <state key="normal" image="us"/>
                                 <connections>
                                     <action selector="buttonTapped:" destination="BYZ-38-t0r" eventType="touchUpInside" id="McB-Qt-NNR"/>
@@ -27,6 +30,9 @@
                             </button>
                             <button opaque="NO" tag="1" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="J1g-pD-Vws">
                                 <rect key="frame" x="87.666666666666686" y="230" width="200" height="100"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" secondItem="J1g-pD-Vws" secondAttribute="height" multiplier="2:1" id="m8u-Dx-AQK"/>
+                                </constraints>
                                 <state key="normal" image="us"/>
                                 <connections>
                                     <action selector="buttonTapped:" destination="BYZ-38-t0r" eventType="touchUpInside" id="lb6-3R-uio"/>
@@ -34,6 +40,9 @@
                             </button>
                             <button opaque="NO" tag="2" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="vvO-zT-iDY">
                                 <rect key="frame" x="87.666666666666686" y="360" width="200" height="100"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" secondItem="vvO-zT-iDY" secondAttribute="height" multiplier="2:1" id="il1-wm-Z76"/>
+                                </constraints>
                                 <state key="normal" image="us"/>
                                 <connections>
                                     <action selector="buttonTapped:" destination="BYZ-38-t0r" eventType="touchUpInside" id="olC-Ko-FOn"/>
@@ -42,9 +51,12 @@
                         </subviews>
                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
+                            <constraint firstItem="vvO-zT-iDY" firstAttribute="height" secondItem="J1g-pD-Vws" secondAttribute="height" id="CPa-ga-ojX"/>
                             <constraint firstItem="vvO-zT-iDY" firstAttribute="top" secondItem="J1g-pD-Vws" secondAttribute="bottom" constant="30" id="DIp-tI-ITU"/>
                             <constraint firstItem="yXV-Y6-Nyr" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" constant="12" id="KuQ-IR-JJB"/>
+                            <constraint firstItem="J1g-pD-Vws" firstAttribute="height" secondItem="yXV-Y6-Nyr" secondAttribute="height" id="PV6-5t-Sy4"/>
                             <constraint firstItem="J1g-pD-Vws" firstAttribute="top" secondItem="yXV-Y6-Nyr" secondAttribute="bottom" constant="30" id="Sxr-95-GgT"/>
+                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="bottom" relation="greaterThanOrEqual" secondItem="vvO-zT-iDY" secondAttribute="bottom" constant="20" id="YU5-8Q-UpY"/>
                             <constraint firstItem="J1g-pD-Vws" firstAttribute="centerX" secondItem="yXV-Y6-Nyr" secondAttribute="centerX" id="arZ-cb-mjc"/>
                             <constraint firstItem="vvO-zT-iDY" firstAttribute="centerX" secondItem="J1g-pD-Vws" secondAttribute="centerX" id="lAo-8x-Dav"/>
                             <constraint firstItem="yXV-Y6-Nyr" firstAttribute="centerX" secondItem="6Tk-OE-BBY" secondAttribute="centerX" id="qWJ-Sw-n6g"/>
