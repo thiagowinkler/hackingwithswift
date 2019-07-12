@@ -6,6 +6,8 @@
 //  Copyright © 2019 Thiago Alves. All rights reserved.
 //
 
+// swiftlint:disable identifier_name
+
 import UIKit
 
 class ViewController: UITableViewController {
@@ -13,21 +15,21 @@ class ViewController: UITableViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+
         title = "World Flags"
         navigationController?.navigationBar.prefersLargeTitles = true
-        
+
         let fm = FileManager.default
         let path = Bundle.main.resourcePath!
-        let items = try! fm.contentsOfDirectory(atPath: path)
-        
-        for item in items {
+        let items = try? fm.contentsOfDirectory(atPath: path)
+
+        for item in items ?? [String]() {
             if item.hasSuffix(".png") {
                 // this is a picture to load!
                 countries.append(String(item.dropLast(4)))
             }
         }
-        
+
         countries.sort()
         print(countries)
     }
@@ -35,7 +37,7 @@ class ViewController: UITableViewController {
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return countries.count
     }
-    
+
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "Country", for: indexPath)
         cell.imageView?.image = UIImage(named: countries[indexPath.row] + ".png")
@@ -52,5 +54,5 @@ class ViewController: UITableViewController {
             navigationController?.pushViewController(vc, animated: true)
         }
     }
-}
 
+}
