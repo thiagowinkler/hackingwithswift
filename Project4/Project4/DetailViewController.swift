@@ -106,4 +106,10 @@ class DetailViewController: UIViewController, WKNavigationDelegate {
         decisionHandler(.cancel)
     }
 
+    deinit {
+        // This is required for iOS 10.
+        // It is not required anymore in iOS 11+.
+        observer = nil
+    }
+
 }
