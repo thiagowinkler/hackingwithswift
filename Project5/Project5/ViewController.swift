@@ -84,7 +84,7 @@ class ViewController: UITableViewController {
             }
         } else {
             guard let title = title else { return }
-            showErrorMessage("You can't spell that word from \(title.lowercased()).", withTitle: "Word not possible")
+            showErrorMessage("You can't spell that word from \(title.lowercased())!", withTitle: "Word not possible")
         }
     }
 
@@ -125,4 +125,5 @@ class ViewController: UITableViewController {
         ac.addAction(UIAlertAction(title: "OK", style: .default))
         present(ac, animated: true)
     }
+
 }
