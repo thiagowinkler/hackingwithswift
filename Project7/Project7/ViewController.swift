@@ -12,9 +12,16 @@ import UIKit
 
 class ViewController: UITableViewController {
     var petitions = [Petition]()
+    var filteredPetitions = [Petition]()
+    var filterButtonTitle = "Filter"
 
     override func viewDidLoad() {
         super.viewDidLoad()
+
+        navigationItem.leftBarButtonItem = UIBarButtonItem(title: filterButtonTitle, style: .plain, target: self,
+                                                            action: #selector(filterPetitions))
+        navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Credits", style: .plain, target: self,
+                                                           action: #selector(showCredits))
 
         let urlString: String
 
@@ -36,6 +43,49 @@ class ViewController: UITableViewController {
         showError()
     }
 
+    @objc func filterPetitions() {
+        let ac = UIAlertController(title: "Enter filter", message: nil, preferredStyle: .alert)
+        ac.addTextField()
+
+        let clearAction = UIAlertAction(title: "Clear", style: .default) { [weak self] _ in
+            self?.submit()
+        }
+
+        let submitAction = UIAlertAction(title: "Submit", style: .default) { [weak self, weak ac] _ in
+            guard let answer = ac?.textFields?[0].text else { return }
+            self?.submit(answer)
+        }
+
+        ac.addAction(clearAction)
+        ac.addAction(submitAction)
+        present(ac, animated: true)
+    }
+
+    func submit(_ filter: String = String()) {
+        if filter.isEmpty {
+            filteredPetitions = petitions
+            navigationItem.leftBarButtonItem?.title = filterButtonTitle
+        } else {
+            let lowerFilter = filter.lowercased()
+
+            filteredPetitions = petitions.filter { petition in
+                return petition.title.lowercased().contains(lowerFilter)
+                    || petition.body.lowercased().contains(lowerFilter)
+            }
+
+            navigationItem.leftBarButtonItem?.title = filterButtonTitle + ": " + filter
+        }
+        tableView.reloadData()
+    }
+
+    @objc func showCredits() {
+        let ac = UIAlertController(title: "Credits",
+                                   message: "Data provided by the We The People API of the Whitehouse.",
+                                   preferredStyle: .alert)
+        ac.addAction(UIAlertAction(title: "OK", style: .default))
+        present(ac, animated: true)
+    }
+
     func showError() {
         let ac = UIAlertController(
                  title: "Loading error",
@@ -50,17 +100,18 @@ class ViewController: UITableViewController {
 
         if let jsonPetitions = try? decoder.decode(Petitions.self, from: json) {
             petitions = jsonPetitions.results
+            filteredPetitions = petitions
             tableView.reloadData()
         }
     }
 
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return petitions.count
+        return filteredPetitions.count
     }
 
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "Cell", for: indexPath)
-        let petition = petitions[indexPath.row]
+        let petition = filteredPetitions[indexPath.row]
         cell.textLabel?.text = petition.title
         cell.detailTextLabel?.text = petition.body
         return cell
@@ -68,7 +119,7 @@ class ViewController: UITableViewController {
 
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let vc = DetailViewController()
-        vc.detailItem = petitions[indexPath.row]
+        vc.detailItem = filteredPetitions[indexPath.row]
         navigationController?.pushViewController(vc, animated: true)
     }
 
