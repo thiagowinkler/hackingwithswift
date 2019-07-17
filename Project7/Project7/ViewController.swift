@@ -69,17 +69,22 @@ class ViewController: UITableViewController {
         if filter.isEmpty {
             filteredPetitions = petitions
             navigationItem.leftBarButtonItem?.title = filterButtonTitle
+            tableView.reloadData()
         } else {
-            let lowerFilter = filter.lowercased()
+            DispatchQueue.global(qos: .userInitiated).async { [unowned self] in
+                let lowerFilter = filter.lowercased()
 
-            filteredPetitions = petitions.filter { petition in
-                return petition.title.lowercased().contains(lowerFilter)
-                    || petition.body.lowercased().contains(lowerFilter)
+                self.filteredPetitions = self.petitions.filter { petition in
+                    return petition.title.lowercased().contains(lowerFilter)
+                        || petition.body.lowercased().contains(lowerFilter)
+                }
+
+                DispatchQueue.main.async { [unowned self] in
+                    self.navigationItem.leftBarButtonItem?.title = self.filterButtonTitle + ": " + filter
+                    self.tableView.reloadData()
+                }
             }
-
-            navigationItem.leftBarButtonItem?.title = filterButtonTitle + ": " + filter
         }
-        tableView.reloadData()
     }
 
     @objc func showCredits() {
