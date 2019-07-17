@@ -20,14 +20,15 @@ class ViewController: UIViewController {
     var activatedButtons = [UIButton]()
     var solutions = [String]()
 
+    var numberOfItemsMatched = 0
     var score = 0 {
         didSet {
             scoreLabel.text = "Score: \(score)"
         }
     }
 
+    let maximumLevel = 2
     var level = 1
-    let maxLevel = 2
 
     override func loadView() {
         view = UIView()
@@ -78,6 +79,8 @@ class ViewController: UIViewController {
 
         let buttonsView = UIView()
         buttonsView.translatesAutoresizingMaskIntoConstraints = false
+        buttonsView.layer.borderWidth = 1
+        buttonsView.layer.borderColor = UIColor.lightGray.cgColor
         view.addSubview(buttonsView)
 
         NSLayoutConstraint.activate([
@@ -165,8 +168,10 @@ class ViewController: UIViewController {
         sender.isHidden = true
     }
 
-    @objc func submitTapped(_ sender: UIButton) {
+    @objc func submitTapped(_ sender: UIButton! = nil) {
         guard let answerText = currentAnswer.text else { return }
+
+        if answerText.isEmpty { return }
 
         if let solutionPosition = solutions.firstIndex(of: answerText) {
             activatedButtons.removeAll()
@@ -176,19 +181,28 @@ class ViewController: UIViewController {
             answersLabel.text = splitAnswers?.joined(separator: "\n")
 
             currentAnswer.text = nil
+            numberOfItemsMatched += 1
             score += 1
 
-            if score % 7 == 0 {
+            if numberOfItemsMatched % 7 == 0 {
                 let ac = UIAlertController(title: "Well done!", message: "Are you ready for the next level?",
                                            preferredStyle: .alert)
                 ac.addAction(UIAlertAction(title: "Let's go!", style: .default, handler: levelUp))
                 present(ac, animated: true)
             }
+        } else {
+            clearTapped()
+
+            score -= 1
+
+            let ac = UIAlertController(title: "Oh no!", message: "This solution is incorrect!", preferredStyle: .alert)
+            ac.addAction(UIAlertAction(title: "Continue", style: .default))
+            present(ac, animated: true)
         }
     }
 
     func levelUp(action: UIAlertAction) {
-        level = (level % maxLevel != 0) ? level + 1 : 1
+        level = (level % maximumLevel != 0) ? level + 1 : 1
 
         solutions.removeAll(keepingCapacity: true)
         loadLevel()
@@ -198,7 +212,7 @@ class ViewController: UIViewController {
         }
     }
 
-    @objc func clearTapped(_ sender: UIButton) {
+    @objc func clearTapped(_ sender: UIButton! = nil) {
         currentAnswer.text = nil
 
         for button in activatedButtons {
