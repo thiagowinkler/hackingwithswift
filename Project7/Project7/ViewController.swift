@@ -23,6 +23,10 @@ class ViewController: UITableViewController {
         navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Credits", style: .plain, target: self,
                                                            action: #selector(showCredits))
 
+        performSelector(inBackground: #selector(fetchJSON), with: nil)
+    }
+
+    @objc func fetchJSON() {
         let urlString: String
 
         if navigationController?.tabBarItem.tag == 0 {
@@ -40,7 +44,7 @@ class ViewController: UITableViewController {
             }
         }
 
-        showError()
+        performSelector(onMainThread: #selector(showError), with: nil, waitUntilDone: false)
     }
 
     @objc func filterPetitions() {
@@ -86,7 +90,7 @@ class ViewController: UITableViewController {
         present(ac, animated: true)
     }
 
-    func showError() {
+    @objc func showError() {
         let ac = UIAlertController(
                  title: "Loading error",
                  message: "There was a problem loading the feed; please check your connection and try again.",
@@ -101,7 +105,9 @@ class ViewController: UITableViewController {
         if let jsonPetitions = try? decoder.decode(Petitions.self, from: json) {
             petitions = jsonPetitions.results
             filteredPetitions = petitions
-            tableView.reloadData()
+            tableView.performSelector(onMainThread: #selector(UITableView.reloadData), with: nil, waitUntilDone: false)
+        } else {
+            performSelector(onMainThread: #selector(showError), with: nil, waitUntilDone: false)
         }
     }
 
